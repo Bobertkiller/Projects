@@ -1,7 +1,9 @@
 import tkinter as tk
+from tkinter import filedialog
 import fnmatch
 import os
 from pygame import mixer
+import shutil
 
 canvas = tk.Tk()
 canvas.title('Music Player')
@@ -66,6 +68,13 @@ def pause_song():
         mixer.music.unpause()
         pauseButton['text'] = 'Pause'
 
+def add_song():
+    filepath = filedialog.askopenfilename()
+    shutil.copy2(filepath,rootpath)
+
+def volume():
+    pass
+
 
 listBox = tk.Listbox(canvas, fg='cyan', bg='black',
                      width=100, font=('ds-digital', 15))
@@ -97,6 +106,10 @@ pauseButton.pack(pady=15, in_=top, side='left')
 nextButton = tk.Button(canvas, text='Next', image=next_img,
                        bg='#6433d6', borderwidth=0, command=play_next)
 nextButton.pack(pady=15, in_=top, side='left')
+
+addButton = tk.Button(canvas, text='Add song',
+                       bg='#6433d6', borderwidth=0, command=add_song)
+addButton.pack(pady=15, side='left')
 
 for root, dirs, files in os.walk(rootpath):
     for filename in fnmatch.filter(files, pattern):
